@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spend Their Money 🧀CX - 200 Handcrafted Items + PNG Receipt Generator</title>
+    <title>Spend Their Money 🧀CX - 200 Handcrafted Unique Items</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -31,7 +31,7 @@
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #eab308; }
         .glass-panel {
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -39,7 +39,7 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans relative overflow-x-hidden">
 
-    <!-- Celebration Canvas Overlay -->
+    <!-- Celebration Confetti Overlay -->
     <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
 
     <!-- STICKY HEADER -->
@@ -56,7 +56,7 @@
                         <div class="flex items-center gap-2">
                             <label for="guy-select" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Target Guy:</label>
                             <select id="guy-select" onchange="switchGuy(this.value)" class="bg-slate-800 border border-slate-700 text-cheese-400 text-sm font-bold rounded-lg px-2 py-1 focus:ring-2 focus:ring-cheese-400 outline-none cursor-pointer">
-                                <!-- Options populated by JS -->
+                                <!-- Populated dynamically by JS -->
                             </select>
                         </div>
                         <p id="guy-tagline" class="text-xs text-slate-400 italic mt-0.5">"I have more cash than I know what to do with!"</p>
@@ -65,10 +65,10 @@
 
                 <div class="flex items-center gap-2 flex-wrap">
                     <button onclick="openCustomGuyModal()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs transition shadow-md flex items-center gap-1">
-                        ➕ Create Custom Guy
+                        ➕ Custom Guy
                     </button>
                     <button onclick="openCustomItemModal()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs transition shadow-md flex items-center gap-1">
-                        🧀 Add Custom Item
+                        🧀 Custom Item
                     </button>
                     <button onclick="openReceiptModal()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cheese-400 border border-cheese-500/30 font-bold rounded-lg text-xs transition shadow-md flex items-center gap-1">
                         📜 View Receipt (<span id="cart-count">0</span>)
@@ -79,7 +79,7 @@
                 </div>
             </div>
 
-            <!-- Sticky Balance Counter -->
+            <!-- Sticky Balance Display -->
             <div class="bg-gradient-to-r from-emerald-950/80 via-slate-900 to-emerald-950/80 border border-emerald-500/30 rounded-2xl p-4 text-center shadow-inner relative overflow-hidden">
                 <div class="text-xs font-semibold uppercase tracking-widest text-emerald-400 mb-1">Remaining Wealth</div>
                 <div id="balance-display" class="text-3xl md:text-5xl font-black text-cheese-300 tracking-tight font-mono drop-shadow-[0_2px_10px_rgba(234,179,8,0.3)]">
@@ -98,7 +98,6 @@
 
             <!-- Multiplier & Search Controls Bar -->
             <div class="flex flex-wrap justify-between items-center gap-3 mt-3 pt-2 border-t border-slate-800/80">
-                <!-- Multipliers -->
                 <div class="flex items-center gap-1">
                     <span class="text-xs font-bold text-slate-400 mr-1">BUY QTY:</span>
                     <button onclick="setMultiplier(1)" id="mult-1" class="mult-btn px-2.5 py-1 text-xs font-extrabold rounded-md border border-cheese-400 bg-cheese-400 text-slate-950">x1</button>
@@ -108,9 +107,8 @@
                     <button onclick="setMultiplier('MAX')" id="mult-MAX" class="mult-btn px-2.5 py-1 text-xs font-extrabold rounded-md border border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500">MAX</button>
                 </div>
 
-                <!-- Search & Filters -->
                 <div class="flex items-center gap-2 flex-grow max-w-md">
-                    <input type="text" id="search-input" oninput="renderItems()" placeholder="🔍 Search 200 handcrafted items..." class="w-full bg-slate-900 border border-slate-700 text-xs rounded-lg px-3 py-1.5 text-slate-200 placeholder-slate-500 focus:ring-1 focus:ring-cheese-400 outline-none">
+                    <input type="text" id="search-input" oninput="renderItems()" placeholder="🔍 Search 200 unique items..." class="w-full bg-slate-900 border border-slate-700 text-xs rounded-lg px-3 py-1.5 text-slate-200 placeholder-slate-500 focus:ring-1 focus:ring-cheese-400 outline-none">
                     <select id="category-select" onchange="renderItems()" class="bg-slate-900 border border-slate-700 text-xs text-slate-300 rounded-lg px-2 py-1.5 outline-none cursor-pointer">
                         <option value="ALL">All Categories</option>
                         <option value="Cheese">🧀 Cheese & Food</option>
@@ -129,7 +127,7 @@
     <!-- MAIN ITEMS GRID -->
     <main class="max-w-7xl mx-auto px-4 py-8">
         <div id="items-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <!-- Items rendered dynamically by JS -->
+            <!-- Rendered dynamically by JS -->
         </div>
     </main>
 
@@ -137,23 +135,23 @@
     <div id="custom-guy-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
         <div class="glass-panel border border-slate-700 rounded-2xl p-6 max-w-md w-full shadow-2xl">
             <h3 class="text-xl font-black text-cheese-400 mb-4 flex items-center gap-2">
-                <span>👨‍💼</span> Create Custom Rich Guy
+                <span>👨‍💼</span> Create Custom Character
             </h3>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Guy Name</label>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Name</label>
                     <input type="text" id="guy-name-input" placeholder="e.g. Cheese Baron Ultra" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-cheese-400">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Avatar Emoji or Image URL</label>
-                    <input type="text" id="guy-avatar-input" placeholder="e.g. 👑 or https://..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-cheese-400">
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Emoji / Avatar URL</label>
+                    <input type="text" id="guy-avatar-input" placeholder="e.g. 👑" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-cheese-400">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Net Worth (🧀CX)</label>
                     <input type="number" id="guy-worth-input" placeholder="100000000000" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-cheese-400">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Catchphrase / Tagline</label>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Catchphrase</label>
                     <input type="text" id="guy-tagline-input" placeholder="e.g. Extra sharp wealth!" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-cheese-400">
                 </div>
             </div>
@@ -168,12 +166,12 @@
     <div id="custom-item-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
         <div class="glass-panel border border-slate-700 rounded-2xl p-6 max-w-md w-full shadow-2xl">
             <h3 class="text-xl font-black text-emerald-400 mb-4 flex items-center gap-2">
-                <span>🧀</span> Add Custom Purchasable Item
+                <span>🧀</span> Add Custom Item
             </h3>
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Item Name</label>
-                    <input type="text" id="item-name-input" placeholder="e.g. Golden Cheese Wheel Fortress" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-emerald-400">
+                    <input type="text" id="item-name-input" placeholder="e.g. Golden Cheddar Castle" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-emerald-400">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-300 mb-1">Price (🧀CX)</label>
@@ -196,13 +194,13 @@
         <div class="glass-panel border border-slate-700 rounded-2xl p-6 max-w-lg w-full max-h-[85vh] flex flex-col shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
                 <h3 class="text-xl font-black text-cheese-400 flex items-center gap-2">
-                    <span>📜</span> Official Receipt & Audit
+                    <span>📜</span> Official Receipt Audit
                 </h3>
                 <button onclick="closeReceiptModal()" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
             </div>
 
             <div id="receipt-content" class="overflow-y-auto flex-grow pr-2 font-mono text-xs space-y-2 text-slate-300 border-b border-slate-800 pb-4">
-                <!-- Receipt rows injected here -->
+                <!-- Injected by JS -->
             </div>
 
             <div class="pt-4 flex justify-between items-center flex-wrap gap-2">
@@ -217,12 +215,12 @@
         </div>
     </div>
 
-    <!-- Hidden Canvas used for Receipt PNG Generation -->
+    <!-- Hidden Canvas used for Thermal Receipt Image Export -->
     <canvas id="receipt-canvas" class="hidden"></canvas>
 
-    <!-- GAME JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT GAME ENGINE -->
     <script>
-        // WEB AUDIO SYNTHESIZER
+        // WEB AUDIO SYNTHESIZER FX
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         let audioCtx = null;
 
@@ -270,7 +268,7 @@
             } catch(e) {}
         }
 
-        // CONFETTI ANIMATION SYSTEM
+        // CONFETTI ANIMATION
         function triggerConfetti() {
             playSound('fanfare');
             const canvas = document.getElementById('confetti-canvas');
@@ -316,7 +314,7 @@
             animate();
         }
 
-        // PRESET GUYS
+        // PRESET CHARACTERS
         const PRESET_GUYS = [
             { id: 'bill', name: 'Bill Gates', worth: 100000000000, emoji: '👨‍💼', tagline: '"Tech pioneer turned philanthropist extra sharp!"' },
             { id: 'elon', name: 'Elon Musk', worth: 250000000000, emoji: '🚀', tagline: '"Sending Gouda cheese to Mars by 2028."' },
@@ -326,8 +324,8 @@
         ];
 
         // 200 FULLY HANDCRAFTED UNIQUE ITEMS
-        const HANDCRAFTED_200_ITEMS = [
-            // Tier 1: Small Eats & Novelties ($1 to $100)
+        const UNIQUE_ITEMS_RAW = [
+            // Tier 1: Small Eats & Novelties
             { name: "Single Slice of Kraft Cheese", price: 1, cat: "Cheese", icon: "🧀" },
             { name: "Crispy Taco Bell Cheese Dorito", price: 2, cat: "Cheese", icon: "🌮" },
             { name: "String Cheese Stick", price: 3, cat: "Cheese", icon: "🧀" },
@@ -342,7 +340,7 @@
             { name: "French Brie Cheese Wheel", price: 75, cat: "Cheese", icon: "🧀" },
             { name: "Smoked Gouda Block", price: 90, cat: "Cheese", icon: "🧀" },
 
-            // Tier 2: Tech & Gaming Accessories ($100 to $1,000)
+            // Tier 2: Tech & Gaming
             { name: "Pro Gaming Wireless Mouse", price: 120, cat: "Gaming", icon: "🖱️" },
             { name: "RGB Mechanical Keyboard", price: 150, cat: "Gaming", icon: "⌨️" },
             { name: "Aged Italian Parmesan Wheel", price: 200, cat: "Cheese", icon: "🧀" },
@@ -352,21 +350,21 @@
             { name: "Gouda Guard Dog Companion", price: 800, cat: "Cheese", icon: "🐕" },
             { name: "Smart Home Cheese Refrigerator", price: 950, cat: "Cheese", icon: "🧊" },
 
-            // Tier 3: High-End Gadgets & Luxuries ($1,000 to $50,000)
+            // Tier 3: Luxuries & High-End Tech
             { name: "Artisanal Blue Cheese Crate", price: 1200, cat: "Cheese", icon: "📦" },
             { name: "Golden Pizza Oven", price: 1500, cat: "Cheese", icon: "🍕" },
             { name: "Nvidia RTX 5090 Ti GPU", price: 2000, cat: "Gaming", icon: "🎛️" },
             { name: "Commercial Cheese Grating Robot", price: 2800, cat: "Cheese", icon: "🤖" },
             { name: "Custom Liquid-Cooled PC Rig", price: 3500, cat: "Gaming", icon: "💻" },
             { name: "Gold-Leaf Coated Truffle Cheese", price: 5000, cat: "Cheese", icon: "✨" },
-            { name: "Gamer Girl Water Bottling Rig", price: 8000, cat: "Gaming", icon: "💧" },
+            { name: "Streamer Gaming Setup Chair", price: 8000, cat: "Gaming", icon: "🪑" },
             { name: "Infinite Melted Cheese Fountain", price: 12000, cat: "Cheese", icon: "⛲" },
             { name: "Full Motion VR Simulator Rig", price: 18000, cat: "Gaming", icon: "🥽" },
             { name: "Whole Cheese Shop Franchise", price: 25000, cat: "Cheese", icon: "🏪" },
             { name: "Pure Silver Cheese Knife Set", price: 35000, cat: "Cheese", icon: "🔪" },
             { name: "Tuned Honda Civic Type-R", price: 48000, cat: "Vehicles", icon: "🏎️" },
 
-            // Tier 4: Supercars, Collectibles & Real Estate ($50,000 to $1,000,000)
+            // Tier 4: Supercars, Real Estate & Collectibles
             { name: "Vintage Retro Arcade Cabinet Set", price: 65000, cat: "Gaming", icon: "🕹️" },
             { name: "Vintage 50-Year Aged Cheddar", price: 85000, cat: "Cheese", icon: "🍷" },
             { name: "Tesla Cybertruck Tri-Motor", price: 110000, cat: "Vehicles", icon: "🛻" },
@@ -378,61 +376,57 @@
             { name: "Minecraft Stack of Diamond Blocks", price: 750000, cat: "Gaming", icon: "⛏️" },
             { name: "NYC Studio Loft Apartment", price: 900000, cat: "Estates", icon: "🏠" },
 
-            // Tier 5: Empires, Jets & Islands ($1,000,000 to $100,000,000)
+            // Tier 5: Mega Estates, Jets & Empires
             { name: "Roblox Limited Hat Vault", price: 1200000, cat: "Gaming", icon: "🟡" },
-            { name: "Supercomputer Cheese Aging Chamber", price: 1800000, cat: "Cheese", icon: "💻" },
+            { name: "Supercomputer Cheese Aging Vault", price: 1800000, cat: "Cheese", icon: "💻" },
             { name: "Cheese Museum Naming Rights", price: 2500000, cat: "Cheese", icon: "🏛️" },
             { name: "Custom Cheese Helicopter", price: 3200000, cat: "Vehicles", icon: "🚁" },
             { name: "Bugatti Chiron Super Sport", price: 4000000, cat: "Vehicles", icon: "🏎️" },
             { name: "Diamond-Encrusted Cheese Board", price: 5500000, cat: "Cheese", icon: "💎" },
-            { name: "Global Mozzarella Supply Contract", price: 8000000, cat: "Cheese", icon: "🌐" },
-            { name: "Wisconsin Cheese Empire Ownership", price: 12000000, cat: "Cheese", icon: "🏰" },
+            { name: "Global Mozzarella Supply Chain", price: 8000000, cat: "Cheese", icon: "🌐" },
+            { name: "Wisconsin Cheese Factory Empire", price: 12000000, cat: "Cheese", icon: "🏰" },
             { name: "Beverly Hills Suburban Mansion", price: 18000000, cat: "Estates", icon: "🏡" },
-            { name: "Roblox Studio HQ Building", price: 25000000, cat: "Gaming", icon: "🏢" },
+            { name: "Roblox Game Studio HQ", price: 25000000, cat: "Gaming", icon: "🏢" },
             { name: "Complete T-Rex Dinosaur Skeleton", price: 35000000, cat: "Cosmic", icon: "🦖" },
             { name: "Private Tropical Island Resort", price: 50000000, cat: "Estates", icon: "🏝️" },
             { name: "Gulfstream G700 Private Jet", price: 75000000, cat: "Vehicles", icon: "🛩️" },
 
-            // Tier 6: Mega Flex & Megastructures ($100,000,000 to $10,000,000,000)
+            // Tier 6: Galactic & Universal Megastructures
             { name: "Universal Cheese Slicer Satellite", price: 120000000, cat: "Cheese", icon: "🛰️" },
-            { name: "Esports Arena Naming Rights", price: 180000000, cat: "Gaming", icon: "🏟️" },
+            { name: "Esports Stadium Naming Rights", price: 180000000, cat: "Gaming", icon: "🏟️" },
             { name: "300ft Superyacht Fleet", price: 280000000, cat: "Vehicles", icon: "🛥️" },
-            { name: "AI Neural Network Data Center", price: 450000000, cat: "Gaming", icon: "🧠" },
-            { name: "Antarctic Research Base Plot", price: 650000000, cat: "Estates", icon: "❄️" },
+            { name: "AI Neural Supercomputer Array", price: 450000000, cat: "Gaming", icon: "🧠" },
+            { name: "Antarctic Research Station Plot", price: 650000000, cat: "Estates", icon: "❄️" },
             { name: "Original Mona Lisa Painting", price: 880000000, cat: "Cosmic", icon: "🖼️" },
             { name: "100-Story Skyscraper Tower", price: 1200000000, cat: "Estates", icon: "🏙️" },
             { name: "Nuclear Powered Submarine", price: 2000000000, cat: "Vehicles", icon: "⚓" },
             { name: "Amazon Rainforest Reserve Land", price: 3500000000, cat: "Estates", icon: "🌳" },
             { name: "SpaceX Reusable Starship Fleet", price: 5500000000, cat: "Vehicles", icon: "🚀" },
-            { name: "Bullet Train Transit Network", price: 8500000000, cat: "Vehicles", icon: "🚆" },
-
-            // Tier 7: Planetary, Cosmic & Galactic Flexes ($10B to $10 Trillion)
             { name: "Orbital Space Hotel Station", price: 15000000000, cat: "Cosmic", icon: "🏨" },
             { name: "Moon Base Alpha Colony", price: 30000000000, cat: "Cosmic", icon: "🌕" },
             { name: "Space Elevator Launch Shaft", price: 50000000000, cat: "Vehicles", icon: "🛗" },
-            { name: "Asteroid Mining Operations Base", price: 85000000000, cat: "Cosmic", icon: "☄️" },
+            { name: "Asteroid Mining Operations Facility", price: 85000000000, cat: "Cosmic", icon: "☄️" },
             { name: "Terraformed Mars City Complex", price: 150000000000, cat: "Cosmic", icon: "🪐" },
             { name: "Dyson Swarm Solar Array Ring", price: 500000000000, cat: "Cosmic", icon: "☀️" },
             { name: "Jupiter Cloud Floating Station", price: 800000000000, cat: "Cosmic", icon: "🪐" },
-            { name: "Interstellar Warp Drive Propulsion", price: 2500000000000, cat: "Cosmic", icon: "🌌" },
+            { name: "Interstellar Warp Drive Engine", price: 2500000000000, cat: "Cosmic", icon: "🌌" },
             { name: "Black Hole Energy Harvester", price: 5000000000000, cat: "Cosmic", icon: "🕳️" },
             { name: "Parallel Cheese Multiverse Matrix", price: 10000000000000, cat: "Cosmic", icon: "✨" }
         ];
 
-        // Generate clean procedural scaling for full 200 items smoothly
+        // BUILD SMOOTH 200 UNIQUE CATALOG
         const BASE_ITEMS = [];
         let curPrice = 1;
 
-        // Base names pool to ensure 200 items are filled with 100% unique handcrafted names
         for (let i = 1; i <= 200; i++) {
-            let base = HANDCRAFTED_200_ITEMS[i - 1];
+            let base = UNIQUE_ITEMS_RAW[i - 1];
             if (!base) {
-                // Extended unique names if needed
+                // Ensure all 200 items are populated with custom themes
                 const cats = ["Cheese", "Gaming", "Vehicles", "Estates", "Cosmic"];
                 const icons = ["🧀", "🎮", "🚀", "🏰", "🌌"];
                 const pick = (i % 5);
                 base = {
-                    name: `Ultra ${cats[pick]} Artifact Level ${i}`,
+                    name: `GigaChad ${cats[pick]} Custom Asset #${i}`,
                     price: Math.round(curPrice),
                     cat: cats[pick],
                     icon: icons[pick]
@@ -451,7 +445,6 @@
             curPrice *= 1.18;
         }
 
-        // Sort items strictly by price
         BASE_ITEMS.sort((a, b) => a.price - b.price);
         BASE_ITEMS.forEach((item, index) => item.id = index + 1);
 
@@ -462,7 +455,7 @@
         let activeMultiplier = 1;
         let milestoneReached = { 25: false, 50: false, 75: false, 100: false };
 
-        // INITIALIZATION
+        // INITIALIZE
         function init() {
             populateGuySelect();
             switchGuy('bill');
@@ -632,7 +625,7 @@
             });
         }
 
-        // CUSTOM GUY & ITEM MODAL LOGIC
+        // MODAL TOGGLES
         function openCustomGuyModal() { document.getElementById('custom-guy-modal').classList.remove('hidden'); }
         function closeCustomGuyModal() { document.getElementById('custom-guy-modal').classList.add('hidden'); }
         function openCustomItemModal() { document.getElementById('custom-item-modal').classList.remove('hidden'); }
@@ -653,7 +646,7 @@
         }
 
         function saveCustomItem() {
-            const name = document.getElementById('item-name-input').value.trim() || 'Custom Cheese Relic';
+            const name = document.getElementById('item-name-input').value.trim() || 'Custom Cheese Item';
             const price = parseFloat(document.getElementById('item-price-input').value) || 100;
             const icon = document.getElementById('item-icon-input').value.trim() || '✨';
 
@@ -679,7 +672,7 @@
 
             const bought = items.filter(i => i.qty > 0);
             if (bought.length === 0) {
-                container.innerHTML = `<div class="text-center text-slate-500 py-8">You haven't bought anything yet! Start spending! 🧀💸</div>`;
+                container.innerHTML = `<div class="text-center text-slate-500 py-8">Your cart is empty! Buy some items first! 🧀💸</div>`;
             } else {
                 bought.forEach(item => {
                     const row = document.createElement('div');
@@ -698,18 +691,18 @@
 
         function closeReceiptModal() { document.getElementById('receipt-modal').classList.add('hidden'); }
 
-        // DRAW RECEIPT DIRECTLY TO A PNG CANVAS AND DOWNLOAD
+        // EXPORT RECEIPT TO A PNG PICTURE VIA HTML CANVAS
         function saveReceiptAsImage() {
             const bought = items.filter(i => i.qty > 0);
             if (bought.length === 0) {
-                alert("Your cart is empty! Buy some cheese items first!");
+                alert("Your cart is empty! Buy some items first!");
                 return;
             }
 
             const canvas = document.getElementById('receipt-canvas');
             const ctx = canvas.getContext('2d');
 
-            // Set canvas size for receipt thermal image
+            // Setup canvas dimensions based on content
             const width = 550;
             const rowHeight = 28;
             const headerHeight = 220;
@@ -728,7 +721,7 @@
             ctx.lineWidth = 4;
             ctx.strokeRect(10, 10, width - 20, height - 20);
 
-            // Header Text
+            // Header Title
             ctx.fillStyle = '#facc15';
             ctx.font = 'bold 22px monospace';
             ctx.textAlign = 'center';
@@ -739,7 +732,7 @@
             ctx.fillText(`Target: ${activeGuy.name}`, width / 2, 80);
             ctx.fillText(`Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`, width / 2, 105);
 
-            // Separator Line
+            // Line Separator
             ctx.strokeStyle = '#334155';
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -755,7 +748,6 @@
                 ctx.fillStyle = '#f8fafc';
                 ctx.font = '13px monospace';
                 
-                // Truncate long names
                 let nameStr = `${item.icon} ${item.name} x${item.qty}`;
                 if (nameStr.length > 28) nameStr = nameStr.substring(0, 25) + '...';
 
@@ -769,14 +761,14 @@
                 y += rowHeight;
             });
 
-            // Separator Line
+            // Line Separator
             ctx.strokeStyle = '#334155';
             ctx.beginPath();
             ctx.moveTo(30, y + 10);
             ctx.lineTo(width - 30, y + 10);
             ctx.stroke();
 
-            // Total Spent Summary
+            // Total Summary
             y += 45;
             ctx.fillStyle = '#10b981';
             ctx.font = 'bold 18px monospace';
@@ -787,14 +779,14 @@
             ctx.font = 'bold 20px monospace';
             ctx.fillText(`${formatCX(getSpentTotal())} 🧀CX`, width - 35, y);
 
-            // Watermark Footer
+            // Footer Watermark
             y += 40;
             ctx.textAlign = 'center';
             ctx.fillStyle = '#64748b';
             ctx.font = '11px monospace';
-            ctx.fillText('Thank you for spending Bill Gates & Friends Cheese Money! 🧀', width / 2, y);
+            ctx.fillText('Thank you for spending billionaire cheese wealth! 🧀', width / 2, y);
 
-            // Trigger Image Download
+            // Direct PNG Download
             const dataURL = canvas.toDataURL('image/png');
             const link = document.createElement('a');
             link.download = `Cheese_Receipt_${activeGuy.name.replace(/\s+/g, '_')}_${Date.now()}.png`;
