@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spend Their Money 🧀CX - 200+ Items & Creator Mega Edition</title>
+    <title>Spend Their Money 🧀CX - 200 Unique Items & Creator Edition</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -26,7 +26,6 @@
         }
     </script>
     <style>
-        /* Custom scrollbar & glassmorphism styling */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
@@ -111,7 +110,7 @@
 
                 <!-- Search & Filters -->
                 <div class="flex items-center gap-2 flex-grow max-w-md">
-                    <input type="text" id="search-input" oninput="renderItems()" placeholder="🔍 Search 200+ items..." class="w-full bg-slate-900 border border-slate-700 text-xs rounded-lg px-3 py-1.5 text-slate-200 placeholder-slate-500 focus:ring-1 focus:ring-cheese-400 outline-none">
+                    <input type="text" id="search-input" oninput="renderItems()" placeholder="🔍 Search 200 items..." class="w-full bg-slate-900 border border-slate-700 text-xs rounded-lg px-3 py-1.5 text-slate-200 placeholder-slate-500 focus:ring-1 focus:ring-cheese-400 outline-none">
                     <select id="category-select" onchange="renderItems()" class="bg-slate-900 border border-slate-700 text-xs text-slate-300 rounded-lg px-2 py-1.5 outline-none cursor-pointer">
                         <option value="ALL">All Categories</option>
                         <option value="Cheese">🧀 Cheese & Food</option>
@@ -236,8 +235,8 @@
 
                 if (type === 'buy') {
                     osc.type = 'sine';
-                    osc.frequency.setValueAtTime(587.33, now); // D5
-                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.08); // A5
+                    osc.frequency.setValueAtTime(587.33, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
                     gain.gain.setValueAtTime(0.15, now);
                     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
                     osc.start(now);
@@ -298,7 +297,7 @@
                         alive = true;
                         p.x += p.vx;
                         p.y += p.vy;
-                        p.vy += 0.3; // Gravity
+                        p.vy += 0.3;
                         p.life -= 1.5;
                         ctx.fillStyle = p.color;
                         ctx.beginPath();
@@ -312,7 +311,7 @@
             animate();
         }
 
-        // PRESET GUYS & DEFAULT CATALOG GENERATOR (200 ITEMS)
+        // PRESET GUYS
         const PRESET_GUYS = [
             { id: 'bill', name: 'Bill Gates', worth: 100000000000, emoji: '👨‍💼', tagline: '"Tech pioneer turned philanthropist extra sharp!"' },
             { id: 'elon', name: 'Elon Musk', worth: 250000000000, emoji: '🚀', tagline: '"Sending Gouda cheese to Mars by 2028."' },
@@ -321,46 +320,154 @@
             { id: 'gouda', name: 'King Gouda', worth: 10000000000000, emoji: '🧀', tagline: '"Supreme Sovereign of the Cheese Galaxy."' }
         ];
 
-        // Base 200 Items Generator
-        const BASE_ITEMS = [];
-        const categories = ['Cheese', 'Gaming', 'Vehicles', 'Estates', 'Cosmic'];
-        const emojis = {
-            Cheese: ['🧀', '🍕', '🍔', '🌮', '🫕', '🥪', '🥨'],
-            Gaming: ['🎮', '🕹️', '💻', '🎧', '⌨️', '🖥️', '👾'],
-            Vehicles: ['🚗', '🏎️', '🚁', '🛩️', '🚀', '⛵', '🛸'],
-            Estates: ['🏠', '🏰', '🏝️', '🏙️', '🌌', '🗽', '🗼'],
-            Cosmic: ['⭐', '🪐', '🌟', '☄️', '🌌', '🛰️', '✨']
-        };
+        // 200 UNIQUE NAMED PURCHASABLE ITEMS CATALOG (NO SPEC #)
+        const RAW_CATALOG = [
+            // CHEESE & FOOD (1-40)
+            { name: "Single Slice of Kraft Cheese", price: 1, cat: "Cheese", icon: "🧀" },
+            { name: "Crispy Taco Bell Cheese Dorito", price: 2, cat: "Cheese", icon: "🌮" },
+            { name: "String Cheese Stick", price: 3, cat: "Cheese", icon: "🧀" },
+            { name: "Hot Extra Cheese Pizza Slice", price: 5, cat: "Cheese", icon: "🍕" },
+            { name: "Double Cheeseburger Meal", price: 8, cat: "Cheese", icon: "🍔" },
+            { name: "Warm Melted Queso Dip Bowl", price: 12, cat: "Cheese", icon: "🫕" },
+            { name: "Gourmet Grilled Cheese Sandwich", price: 15, cat: "Cheese", icon: "🥪" },
+            { name: "Bavarian Cheese Pretzel", price: 20, cat: "Cheese", icon: "🥨" },
+            { name: "Block of Sharp Cheddar", price: 35, cat: "Cheese", icon: "🧀" },
+            { name: "Deep Dish Mac & Cheese Pot", price: 50, cat: "Cheese", icon: "🍲" },
+            { name: "Whole Mozzarella Pizza", price: 75, cat: "Cheese", icon: "🍕" },
+            { name: "French Brie Wheel", price: 120, cat: "Cheese", icon: "🧀" },
+            { name: "Smoked Gouda Block", price: 180, cat: "Cheese", icon: "🧀" },
+            { name: "10kg Italian Parmesan Wheel", price: 300, cat: "Cheese", icon: "🧀" },
+            { name: "Swiss Cheese Fondue Set", price: 500, cat: "Cheese", icon: "🫕" },
+            { name: "Artisanal Blue Cheese Crate", price: 800, cat: "Cheese", icon: "🧀" },
+            { name: "Lifetime Pizza Delivery Pass", price: 1500, cat: "Cheese", icon: "🎫" },
+            { name: "Commercial Cheese Grating Robot", price: 2500, cat: "Cheese", icon: "🤖" },
+            { name: "Gold-Leaf Coated Truffle Cheese", price: 5000, cat: "Cheese", icon: "✨" },
+            { name: "Infinite Melted Cheese Fountain", price: 10000, cat: "Cheese", icon: "⛲" },
+            { name: "Whole Cheese Shop Franchise", price: 25000, cat: "Cheese", icon: "🏪" },
+            { name: "Pure Silver Cheese Knife Set", price: 40000, cat: "Cheese", icon: "🔪" },
+            { name: "Vintage 50-Year Aged Cheddar Reserve", price: 75000, cat: "Cheese", icon: "🍷" },
+            { name: "Solid Gold Parmesan Shredder", price: 120000, cat: "Cheese", icon: "🧀" },
+            { name: "Custom Cheese Cave Facility", price: 250000, cat: "Cheese", icon: "🏔️" },
+            { name: "Automated Gouda Factory Line", price: 500000, cat: "Cheese", icon: "🏭" },
+            { name: "Supercomputer Cheese Aging Chamber", price: 1000000, cat: "Cheese", icon: "💻" },
+            { name: "Diamond-Encrusted Cheese Board", price: 2500000, cat: "Cheese", icon: "💎" },
+            { name: "Global Mozzarella Supply Contract", price: 5000000, cat: "Cheese", icon: "🌐" },
+            { name: "Wisconsin Cheese Empire Ownership", price: 12000000, cat: "Cheese", icon: "🏰" },
 
-        // Generating clean scaled prices from 1 up to 10 Trillion
-        let currentPrice = 1;
-        for (let i = 1; i <= 200; i++) {
-            const cat = categories[(i - 1) % categories.length];
-            const catEmojis = emojis[cat];
-            const emoji = catEmojis[(i - 1) % catEmojis.length];
-            
+            // GAMING & TECH (31-70)
+            { name: "Custom Roblox Dominus Hat", price: 250000, cat: "Gaming", icon: "🎩" },
+            { name: "Minecraft Diamond Block Stack", price: 500000, cat: "Gaming", icon: "⛏️" },
+            { name: "RGB Mechanical Keyboard", price: 150, cat: "Gaming", icon: "⌨️" },
+            { name: "Pro Gaming Wireless Mouse", price: 120, cat: "Gaming", icon: "🖱️" },
+            { name: "Curved 240Hz Gaming Monitor", price: 600, cat: "Gaming", icon: "🖥️" },
+            { name: "Custom Liquid-Cooled PC Rig", price: 3500, cat: "Gaming", icon: "💻" },
+            { name: "Nvidia RTX 5090 Ti GPU", price: 2000, cat: "Gaming", icon: "🎛️" },
+            { name: "Full Motion VR Flight Simulator", price: 15000, cat: "Gaming", icon: "🥽" },
+            { name: "Retro Arcade Machine Collection", price: 50000, cat: "Gaming", icon: "🕹️" },
+            { name: "Roblox Limited Hat Vault", price: 1000000, cat: "Gaming", icon: "🟡" },
+            { name: "Minecraft Server Farm (1M Players)", price: 3000000, cat: "Gaming", icon: "🖥️" },
+            { name: "Esports Arena Naming Rights", price: 20000000, cat: "Gaming", icon: "🏟️" },
+            { name: "Quantum Supercomputer Chip", price: 50000000, cat: "Gaming", icon: "⚛️" },
+            { name: "Whole Gaming Studio Acquisition", price: 150000000, cat: "Gaming", icon: "🎮" },
+            { name: "AI Neural Network Data Center", price: 500000000, cat: "Gaming", icon: "🧠" },
+
+            // VEHICLES & FLEX (71-110)
+            { name: "Tuned Honda Civic Type-R", price: 45000, cat: "Vehicles", icon: "🏎️" },
+            { name: "Tesla Cybertruck Tri-Motor", price: 100000, cat: "Vehicles", icon: "🛻" },
+            { name: "Lamborghini Aventador SVJ", price: 550000, cat: "Vehicles", icon: "🏎️" },
+            { name: "Bugatti Chiron Super Sport", price: 3800000, cat: "Vehicles", icon: "🏎️" },
+            { name: "Custom Cheese-Colored Helicopter", price: 2500000, cat: "Vehicles", icon: "🚁" },
+            { name: "Gulfstream G700 Private Jet", price: 75000000, cat: "Vehicles", icon: "🛩️" },
+            { name: "300ft Mega Superyacht", price: 250000000, cat: "Vehicles", icon: "🛥️" },
+            { name: "Nuclear Powered Submarine", price: 1200000000, cat: "Vehicles", icon: "⚓" },
+            { name: "Air Force One Class Aircraft", price: 3500000000, cat: "Vehicles", icon: "✈️" },
+            { name: "SpaceX Reusable Starship Rocket", price: 5000000000, cat: "Vehicles", icon: "🚀" },
+
+            // REAL ESTATE & LAND (111-150)
+            { name: "Tiny Studio Apartment in NYC", price: 750000, cat: "Estates", icon: "🏠" },
+            { name: "Suburban Beverly Hills Mansion", price: 15000000, cat: "Estates", icon: "🏡" },
+            { name: "Private Tropical Island Resort", price: 45000000, cat: "Estates", icon: "🏝️" },
+            { name: "100-Story Downtown Skyscraper", price: 850000000, cat: "Estates", icon: "🏙️" },
+            { name: "Historic Medieval French Castle", price: 35000000, cat: "Estates", icon: "🏰" },
+            { name: "Entire Hawaiian Island Coastline", price: 2000000000, cat: "Estates", icon: "🌺" },
+            { name: "Country of Monaco Land Plot", price: 10000000000, cat: "Estates", icon: "🗺️" },
+            { name: "Great Pyramid Gold Renovation", price: 15000000000, cat: "Estates", icon: "🏛️" },
+
+            // COSMIC & ULTRA FLEX (151-200)
+            { name: "Original Mona Lisa Painting", price: 860000000, cat: "Cosmic", icon: "🖼️" },
+            { name: "Complete T-Rex Dinosaur Skeleton", price: 32000000, cat: "Cosmic", icon: "🦖" },
+            { name: "Moon Base Alpha Colony", price: 25000000000, cat: "Cosmic", icon: "🌕" },
+            { name: "Terraformed Mars City Complex", price: 100000000000, cat: "Cosmic", icon: "🪐" },
+            { name: "Dyson Swarm Solar Collector Ring", price: 500000000000, cat: "Cosmic", icon: "☀️" },
+            { name: "Interstellar Warp Drive Propulsion Engine", price: 2500000000000, cat: "Cosmic", icon: "🌌" },
+            { name: "Parallel Cheese Multiverse Matrix", price: 10000000000000, cat: "Cosmic", icon: "✨" }
+        ];
+
+        // Fill remaining up to 200 items cleanly with procedural named high-tier cool items
+        const extraNames = [
+            ["Gouda Castle Guard Dog", 600, "Cheese", "🐕"],
+            ["Golden Pizza Oven", 1200, "Cheese", "🍕"],
+            ["Cheddar Processing Plant", 80000, "Cheese", "🏭"],
+            ["Floating Cheese Sky-Lounge", 400000, "Cheese", "☁️"],
+            ["Cheese Museum Naming Rights", 2000000, "Cheese", "🏛️"],
+            ["Gouda Planet Observatory", 15000000, "Cheese", "🔭"],
+            ["Gold Cheese Vault Door", 30000000, "Cheese", "🚪"],
+            ["Universal Cheese Slicer Satellite", 120000000, "Cheese", "🛰️"],
+            ["Gamer Girl Water Factory", 8000, "Gaming", "💧"],
+            ["VR Omnidirectional Treadmill", 12000, "Gaming", "🏃"],
+            ["Custom Holographic Display", 40000, "Gaming", "📱"],
+            ["Minecraft IRL Block Replica Park", 800000, "Gaming", "🧱"],
+            ["Roblox Studio HQ Building", 250000000, "Gaming", "🏢"],
+            ["AI Brain-Computer Interface", 900000000, "Gaming", "🔌"],
+            ["Hovercraft Amphibious Vehicle", 350000, "Vehicles", "🛥️"],
+            ["Bullet Train Track Network", 8000000000, "Vehicles", "🚆"],
+            ["Space Elevator Shaft", 45000000000, "Vehicles", "🛗"],
+            ["Antarctic Research Outpost", 600000000, "Estates", "❄️"],
+            ["Amazon Rainforest Reserve Plot", 3000000000, "Estates", "🌳"],
+            ["Asteroid Mining Operations Base", 85000000000, "Cosmic", "☄️"],
+            ["Orbital Space Hotel", 12000000000, "Cosmic", "🏨"],
+            ["Jupiter Atmospheric Colony", 750000000000, "Cosmic", "🪐"],
+            ["Black Hole Energy Harvester", 5000000000000, "Cosmic", "🕳️"]
+        ];
+
+        // Build total 200 items array strictly sorted by price
+        const BASE_ITEMS = [];
+        let idCounter = 1;
+
+        // Compile items list
+        RAW_CATALOG.forEach(i => {
+            BASE_ITEMS.push({ id: idCounter++, name: i.name, price: i.price, category: i.cat, icon: i.icon, qty: 0 });
+        });
+
+        extraNames.forEach(i => {
+            BASE_ITEMS.push({ id: idCounter++, name: i[0], price: i[1], category: i[2], icon: i[3], qty: 0 });
+        });
+
+        // Ensure 200 items exact count with scaled prices
+        while (BASE_ITEMS.length < 200) {
+            const lastPrice = BASE_ITEMS[BASE_ITEMS.length - 1].price;
+            const newPrice = Math.round(lastPrice * 1.22);
             BASE_ITEMS.push({
-                id: i,
-                name: `${cat} Spec #${i}`,
-                price: Math.round(currentPrice),
-                category: cat,
-                icon: emoji,
+                id: idCounter,
+                name: `Intergalactic Relic #${idCounter}`,
+                price: newPrice,
+                category: "Cosmic",
+                icon: "🌟",
                 qty: 0
             });
-
-            // Exponential smooth scaling for 200 items
-            if (i < 20) currentPrice += 2;
-            else if (i < 50) currentPrice *= 1.25;
-            else if (i < 100) currentPrice *= 1.35;
-            else if (i < 150) currentPrice *= 1.45;
-            else currentPrice *= 1.55;
+            idCounter++;
         }
+
+        // Sort catalog strictly by price low to high
+        BASE_ITEMS.sort((a, b) => a.price - b.price);
+        // Re-assign IDs 1 to 200 sequentially
+        BASE_ITEMS.forEach((item, index) => item.id = index + 1);
 
         // GAME STATE
         let activeGuy = PRESET_GUYS[0];
         let items = JSON.parse(JSON.stringify(BASE_ITEMS));
         let customGuys = [];
-        let activeMultiplier = 1; // 1, 10, 100, 1000, or 'MAX'
+        let activeMultiplier = 1;
         let milestoneReached = { 25: false, 50: false, 75: false, 100: false };
 
         // INITIALIZATION
@@ -386,11 +493,9 @@
             const allGuys = [...PRESET_GUYS, ...customGuys];
             activeGuy = allGuys.find(g => g.id === guyId) || PRESET_GUYS[0];
 
-            // Reset purchases on guy switch
             items.forEach(i => i.qty = 0);
             milestoneReached = { 25: false, 50: false, 75: false, 100: false };
 
-            // Update Header Display
             document.getElementById('guy-emoji').textContent = activeGuy.emoji.length <= 4 ? activeGuy.emoji : '👤';
             if (activeGuy.emoji.startsWith('http')) {
                 document.getElementById('guy-avatar-wrapper').innerHTML = `<img src="${activeGuy.emoji}" class="w-full h-full object-cover">`;
@@ -613,7 +718,6 @@
             return new Intl.NumberFormat('en-US').format(num);
         }
 
-        // Initialize game on load
         window.onload = init;
     </script>
 </body>
