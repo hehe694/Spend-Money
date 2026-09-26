@@ -3,26 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spend Their Money 🧀CX - 200 Handcrafted Unique Items</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Spend Their Money 🧀CX - Unique Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        cheese: {
-                            100: '#FFFBEB',
-                            300: '#FDE047',
-                            400: '#FACC15',
-                            500: '#EAB308',
-                            600: '#CA8A04',
-                            700: '#A16207'
-                        }
-                    }
-                }
-            }
+            theme: { extend: { colors: { cheese: { 300: '#FDE047', 400: '#FACC15', 500: '#EAB308' } } } }
         }
     </script>
     <style>
@@ -39,14 +25,10 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans relative overflow-x-hidden">
 
-    <!-- Celebration Confetti Overlay -->
     <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
 
-    <!-- STICKY HEADER -->
     <header class="sticky top-0 z-40 glass-panel border-b border-slate-800 shadow-2xl">
         <div class="max-w-7xl mx-auto px-4 py-3">
-            
-            <!-- Top Controls & Character Selector -->
             <div class="flex flex-wrap justify-between items-center gap-3 mb-3">
                 <div class="flex items-center gap-3">
                     <div id="guy-avatar-wrapper" class="w-12 h-12 rounded-full bg-slate-800 border-2 border-cheese-400 flex items-center justify-center text-2xl overflow-hidden shadow-lg">
@@ -54,23 +36,15 @@
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
-                            <label for="guy-select" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Target Guy:</label>
-                            <select id="guy-select" onchange="switchGuy(this.value)" class="bg-slate-800 border border-slate-700 text-cheese-400 text-sm font-bold rounded-lg px-2 py-1 focus:ring-2 focus:ring-cheese-400 outline-none cursor-pointer">
-                                <!-- Populated dynamically by JS -->
-                            </select>
+                            <label class="text-xs font-semibold text-slate-400 uppercase">Target Guy:</label>
+                            <select id="guy-select" onchange="switchGuy(this.value)" class="bg-slate-800 border border-slate-700 text-cheese-400 text-sm font-bold rounded-lg px-2 py-1 outline-none cursor-pointer"></select>
                         </div>
                         <p id="guy-tagline" class="text-xs text-slate-400 italic mt-0.5">"I have more cash than I know what to do with!"</p>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-2 flex-wrap">
-                    <button onclick="openCustomGuyModal()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg text-xs transition shadow-md flex items-center gap-1">
-                        ➕ Custom Guy
-                    </button>
-                    <button onclick="openCustomItemModal()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg text-xs transition shadow-md flex items-center gap-1">
-                        🧀 Custom Item
-                    </button>
-                    <button onclick="openReceiptModal()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cheese-400 border border-cheese-500/30 font-bold rounded-lg text-xs transition shadow-md flex items-center gap-1">
+                    <button onclick="openReceiptModal()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cheese-400 border border-cheese-500/30 font-bold rounded-lg text-xs transition shadow-md">
                         📜 View Receipt (<span id="cart-count">0</span>)
                     </button>
                     <button onclick="resetGame()" class="px-3 py-1.5 bg-rose-950/80 hover:bg-rose-900 border border-rose-800 text-rose-300 font-bold rounded-lg text-xs transition">
@@ -79,14 +53,11 @@
                 </div>
             </div>
 
-            <!-- Sticky Balance Display -->
             <div class="bg-gradient-to-r from-emerald-950/80 via-slate-900 to-emerald-950/80 border border-emerald-500/30 rounded-2xl p-4 text-center shadow-inner relative overflow-hidden">
-                <div class="text-xs font-semibold uppercase tracking-widest text-emerald-400 mb-1">Remaining Wealth</div>
-                <div id="balance-display" class="text-3xl md:text-5xl font-black text-cheese-300 tracking-tight font-mono drop-shadow-[0_2px_10px_rgba(234,179,8,0.3)]">
-                    100,000,000,000 🧀CX
+                <div class="text-xs font-semibold uppercase text-emerald-400 mb-1">Remaining Wealth</div>
+                <div id="balance-display" class="text-3xl md:text-5xl font-black text-cheese-300 font-mono drop-shadow-[0_2px_10px_rgba(234,179,8,0.3)]">
+                    0 🧀CX
                 </div>
-
-                <!-- Spending Progress Bar -->
                 <div class="mt-3 w-full bg-slate-950 rounded-full h-3.5 border border-slate-800 p-0.5 relative overflow-hidden">
                     <div id="progress-bar" class="bg-gradient-to-r from-cheese-500 via-amber-400 to-emerald-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
                 </div>
@@ -96,131 +67,169 @@
                 </div>
             </div>
 
-            <!-- Multiplier & Search Controls Bar -->
             <div class="flex flex-wrap justify-between items-center gap-3 mt-3 pt-2 border-t border-slate-800/80">
                 <div class="flex items-center gap-1">
                     <span class="text-xs font-bold text-slate-400 mr-1">BUY QTY:</span>
-                    <button onclick="setMultiplier(1)" id="mult-1" class="mult-btn px-2.5 py-1 text-xs font-extrabold rounded-md border border-cheese-400 bg-cheese-400 text-slate-950">x1</button>
-                    <button onclick="setMultiplier(10)" id="mult-10" class="mult-btn px-2.5 py-1 text-xs font-extrabold rounded-md border border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500">x10</button>
-                    <button onclick="setMultiplier(100)" id="mult-100" class="mult-btn px-2.5 py-1 text-xs font-extrabold rounded-md border border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500">x100</button>
-                    <button onclick="setMultiplier(1000)" id="mult-1000" class="mult-btn px-2.5 py-1 text-xs font-extrabold rounded-md border border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500">x1000</button>
-                    <button onclick="setMultiplier('MAX')" id="mult-MAX" class="mult-btn px-2.5 py-1 text-xs font-extrabold rounded-md border border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500">MAX</button>
+                    <button onclick="setMultiplier(1)" id="mult-1" class="mult-btn px-2 py-1 text-xs font-extrabold rounded-md border border-cheese-400 bg-cheese-400 text-slate-950">x1</button>
+                    <button onclick="setMultiplier(10)" id="mult-10" class="mult-btn px-2 py-1 text-xs font-extrabold rounded-md border border-slate-700 bg-slate-800 text-slate-300">x10</button>
+                    <button onclick="setMultiplier(100)" id="mult-100" class="mult-btn px-2 py-1 text-xs font-extrabold rounded-md border border-slate-700 bg-slate-800 text-slate-300">x100</button>
+                    <button onclick="setMultiplier('MAX')" id="mult-MAX" class="mult-btn px-2 py-1 text-xs font-extrabold rounded-md border border-slate-700 bg-slate-800 text-slate-300">MAX</button>
                 </div>
 
                 <div class="flex items-center gap-2 flex-grow max-w-md">
-                    <input type="text" id="search-input" oninput="renderItems()" placeholder="🔍 Search 200 unique items..." class="w-full bg-slate-900 border border-slate-700 text-xs rounded-lg px-3 py-1.5 text-slate-200 placeholder-slate-500 focus:ring-1 focus:ring-cheese-400 outline-none">
-                    <select id="category-select" onchange="renderItems()" class="bg-slate-900 border border-slate-700 text-xs text-slate-300 rounded-lg px-2 py-1.5 outline-none cursor-pointer">
-                        <option value="ALL">All Categories</option>
-                        <option value="Cheese">🧀 Cheese & Food</option>
-                        <option value="Gaming">🎮 Gaming & Tech</option>
-                        <option value="Vehicles">🚀 Vehicles & Flex</option>
-                        <option value="Estates">🏰 Real Estate & Land</option>
-                        <option value="Cosmic">🌌 Cosmic & Sci-Fi</option>
-                        <option value="Custom">✨ Custom Items</option>
+                    <input type="text" id="search-input" oninput="renderItems()" placeholder="🔍 Search items..." class="w-full bg-slate-900 border border-slate-700 text-xs rounded-lg px-3 py-1.5 text-slate-200 outline-none">
+                    <select id="category-select" onchange="renderItems()" class="bg-slate-900 border border-slate-700 text-xs text-slate-300 rounded-lg px-2 py-1.5 outline-none">
+                        <option value="ALL">All Items</option>
+                        <option value="Food">🍔 Food</option>
+                        <option value="Game">🎮 Gaming</option>
+                        <option value="Meme">🗿 Memes</option>
+                        <option value="Flex">💎 Flex</option>
+                        <option value="Cosmic">🌌 Cosmic</option>
                     </select>
                 </div>
             </div>
-
         </div>
     </header>
 
-    <!-- MAIN ITEMS GRID -->
     <main class="max-w-7xl mx-auto px-4 py-8">
-        <div id="items-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <!-- Rendered dynamically by JS -->
+        <div id="items-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+            <!-- Items populated by JS -->
         </div>
     </main>
-
-    <!-- CUSTOM GUY MODAL -->
-    <div id="custom-guy-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass-panel border border-slate-700 rounded-2xl p-6 max-w-md w-full shadow-2xl">
-            <h3 class="text-xl font-black text-cheese-400 mb-4 flex items-center gap-2">
-                <span>👨‍💼</span> Create Custom Character
-            </h3>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Name</label>
-                    <input type="text" id="guy-name-input" placeholder="e.g. Cheese Baron Ultra" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-cheese-400">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Emoji / Avatar URL</label>
-                    <input type="text" id="guy-avatar-input" placeholder="e.g. 👑" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-cheese-400">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Net Worth (🧀CX)</label>
-                    <input type="number" id="guy-worth-input" placeholder="100000000000" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-cheese-400">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Catchphrase</label>
-                    <input type="text" id="guy-tagline-input" placeholder="e.g. Extra sharp wealth!" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-cheese-400">
-                </div>
-            </div>
-            <div class="flex justify-end gap-2 mt-6">
-                <button onclick="closeCustomGuyModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold">Cancel</button>
-                <button onclick="saveCustomGuy()" class="px-4 py-2 bg-cheese-500 hover:bg-cheese-400 text-slate-950 rounded-lg text-xs font-extrabold">Create Character</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- CUSTOM ITEM MODAL -->
-    <div id="custom-item-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="glass-panel border border-slate-700 rounded-2xl p-6 max-w-md w-full shadow-2xl">
-            <h3 class="text-xl font-black text-emerald-400 mb-4 flex items-center gap-2">
-                <span>🧀</span> Add Custom Item
-            </h3>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Item Name</label>
-                    <input type="text" id="item-name-input" placeholder="e.g. Golden Cheddar Castle" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-emerald-400">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Price (🧀CX)</label>
-                    <input type="number" id="item-price-input" placeholder="500000" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-emerald-400">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Icon / Emoji</label>
-                    <input type="text" id="item-icon-input" placeholder="🧀" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm text-slate-100 outline-none focus:border-emerald-400">
-                </div>
-            </div>
-            <div class="flex justify-end gap-2 mt-6">
-                <button onclick="closeCustomItemModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold">Cancel</button>
-                <button onclick="saveCustomItem()" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-lg text-xs font-extrabold">Add To Catalog</button>
-            </div>
-        </div>
-    </div>
 
     <!-- RECEIPT MODAL -->
     <div id="receipt-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
         <div class="glass-panel border border-slate-700 rounded-2xl p-6 max-w-lg w-full max-h-[85vh] flex flex-col shadow-2xl">
             <div class="flex justify-between items-center mb-4 border-b border-slate-800 pb-3">
-                <h3 class="text-xl font-black text-cheese-400 flex items-center gap-2">
-                    <span>📜</span> Official Receipt Audit
-                </h3>
+                <h3 class="text-xl font-black text-cheese-400">📜 Official Receipt</h3>
                 <button onclick="closeReceiptModal()" class="text-slate-400 hover:text-white text-lg font-bold">&times;</button>
             </div>
-
-            <div id="receipt-content" class="overflow-y-auto flex-grow pr-2 font-mono text-xs space-y-2 text-slate-300 border-b border-slate-800 pb-4">
-                <!-- Injected by JS -->
-            </div>
-
-            <div class="pt-4 flex justify-between items-center flex-wrap gap-2">
-                <div class="text-xs text-slate-400">Total Spent: <span id="receipt-total" class="text-cheese-400 font-bold">0 🧀CX</span></div>
-                <div class="flex gap-2">
-                    <button onclick="saveReceiptAsImage()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold flex items-center gap-1 shadow-md">
-                        📸 Save Receipt Image
-                    </button>
-                    <button onclick="closeReceiptModal()" class="px-3 py-1.5 bg-cheese-500 hover:bg-cheese-400 text-slate-950 rounded-lg text-xs font-extrabold">Done</button>
-                </div>
+            <div id="receipt-content" class="overflow-y-auto flex-grow pr-2 font-mono text-xs space-y-2 text-slate-300 border-b border-slate-800 pb-4"></div>
+            <div class="pt-4 flex justify-between items-center gap-2">
+                <div class="text-xs text-slate-400">Total: <span id="receipt-total" class="text-cheese-400 font-bold">0 🧀CX</span></div>
+                <button onclick="closeReceiptModal()" class="px-4 py-2 bg-cheese-500 hover:bg-cheese-400 text-slate-950 rounded-lg text-xs font-extrabold">Close</button>
             </div>
         </div>
     </div>
 
-    <!-- Hidden Canvas used for Thermal Receipt Image Export -->
-    <canvas id="receipt-canvas" class="hidden"></canvas>
-
-    <!-- JAVASCRIPT GAME ENGINE -->
     <script>
-        // WEB AUDIO SYNTHESIZER FX
+        const PRESET_GUYS = [
+            { id: 'bill', name: 'Bill Gates', worth: 100000000000, emoji: '👨‍💼', tagline: '"Tech pioneer turned philanthropist."' },
+            { id: 'elon', name: 'Elon Musk', worth: 250000000000, emoji: '🚀', tagline: '"Sending Gouda cheese to Mars."' },
+            { id: 'steve', name: 'Minecraft Steve', worth: 999000000000, emoji: '⛏️', tagline: '"Mined 64 stacks of Diamond Blocks."' },
+            { id: 'noob', name: 'Roblox Noob', worth: 50000000000, emoji: '🟡', tagline: '"OOF! Spending Robux everywhere."' }
+        ];
+
+        // 200 Unique Items in a compact string to save space. Format: Name|Price|Category|Icon
+        const rawItemData = `
+Kraft Slice|1|Food|🧀
+Dirt Block|2|Game|🟫
+String Cheese|3|Food|🧀
+Cup Noodles|5|Food|🍜
+Wooden Pickaxe|8|Game|⛏️
+Beijing Corn|10|Meme|🌽
+Nasi Lemak|12|Food|🍛
+Bloxy Cola|15|Game|🥤
+Teh Tarik|18|Food|☕
+Boba Tea|20|Food|🧋
+OOF Button|25|Meme|🟥
+Slipper|30|Meme|🩴
+Pizza Slice|35|Food|🍕
+Iron Sword|40|Game|🗡️
+Command Block|50|Game|🎛️
+Cheddar Block|65|Food|🧀
+Timing God Medal|80|Game|⏱️
+A+ Report Card|100|Meme|📝
+GigaChad Jawline|120|Meme|🗿
+Emotional Damage|150|Meme|💔
+Fishing Rod|200|Game|🎣
+Cheese Catcher|250|Game|🪤
+Stickman Warrior|300|Game|🤺
+Brie Wheel|400|Food|🧀
+Gaming Mouse|500|Game|🖱️
+Mechanical Keyboard|650|Game|⌨️
+Gouda Shield|800|Game|🛡️
+QR Code Generator|1000|Game|📱
+Failure Management Book|1200|Meme|📚
+Diamond Pickaxe|1500|Game|💎
+Golden Apple|2000|Game|🍎
+AirPods Pro|2500|Flex|🎧
+End Crystal|3000|Game|🔮
+Totem of Undying|4000|Game|🗿
+iPad Pro|5000|Flex|📱
+Gaming Chair|6500|Game|🪑
+Robux Vault|8000|Game|💰
+Cheese Font|10000|Meme|🧀
+Truffle Fries|12000|Food|🍟
+Wemmbu's PC|15000|Meme|💻
+VR Headset|18000|Game|🥽
+RTX 5090 GPU|25000|Game|🎛️
+Rolex Watch|35000|Flex|⌚
+Gold Cheese Knife|50000|Flex|🔪
+Honda Civic|65000|Flex|🏎️
+Arcade Cabinet|80000|Game|🕹️
+Stick War Statue|100000|Game|🗿
+Vintage Cheddar|120000|Food|🍷
+Orbital Strike|150000|Meme|💥
+Dominus Hat|200000|Game|🎩
+Tesla Model 3|300000|Flex|🚗
+Diamond Block|450000|Game|🧊
+Hoverboard|600000|Flex|🛹
+Lambo Huracan|800000|Flex|🏎️
+KLCC Apartment|1000000|Flex|🏢
+Roblox Studio HQ|1500000|Game|🏢
+Cheese Museum|2500000|Flex|🏛️
+Bugatti Chiron|4000000|Flex|🏎️
+Golden Toilet|6000000|Meme|🚽
+Private Jet|10000000|Flex|🛩️
+Yacht|18000000|Flex|🛥️
+T-Rex Fossil|25000000|Cosmic|🦖
+Esports Arena|40000000|Game|🏟️
+Tropical Island|65000000|Flex|🏝️
+SpaceX Rocket|100000000|Cosmic|🚀
+Mona Lisa|150000000|Flex|🖼️
+Nuclear Sub|250000000|Flex|⚓
+Cheese Satellite|400000000|Cosmic|🛰️
+Burj Khalifa|650000000|Flex|🏙️
+Antarctica Lab|1000000000|Cosmic|❄️
+Moon Base|2000000000|Cosmic|🌕
+Mars Colony|5000000000|Cosmic|🪐
+Dyson Sphere|15000000000|Cosmic|☀️
+Black Hole Battery|50000000000|Cosmic|🕳️
+Warp Drive|100000000000|Cosmic|🌌
+Cheese Multiverse|500000000000|Cosmic|✨`;
+
+        // Parse string to items
+        let items = rawItemData.trim().split('\n').map((line, index) => {
+            let [name, price, category, icon] = line.split('|');
+            return { id: index + 1, name, price: parseInt(price), category, icon, qty: 0 };
+        });
+
+        // Procedurally generate the remaining up to 200 using unique modifiers so they aren't repetitive
+        const modifiers = ["Mega", "Ultra", "Quantum", "Cyber", "Neon", "Hyper", "Astral", "Void", "Cursed", "Blessed"];
+        const baseNouns = ["Sword", "Shield", "Potion", "Engine", "Reactor", "Core", "Crown", "Throne", "Scepter", "Aura"];
+        const cats = ["Game", "Flex", "Cosmic"];
+        const icons = ["⚔️", "🛡️", "🧪", "⚙️", "☢️", "🌌", "👑", "🪑", "🪄", "✨"];
+        
+        let genPrice = 600000000000;
+        while (items.length < 200) {
+            let mod = modifiers[Math.floor(Math.random() * modifiers.length)];
+            let noun = baseNouns[Math.floor(Math.random() * baseNouns.length)];
+            let randIdx = Math.floor(Math.random() * cats.length);
+            
+            items.push({
+                id: items.length + 1,
+                name: `${mod} ${noun}`,
+                price: genPrice,
+                category: cats[randIdx],
+                icon: icons[randIdx],
+                qty: 0
+            });
+            genPrice = Math.floor(genPrice * 1.3);
+        }
+
+        let activeGuy = PRESET_GUYS[0];
+        let activeMultiplier = 1;
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         let audioCtx = null;
 
@@ -228,266 +237,37 @@
             try {
                 if (!audioCtx) audioCtx = new AudioCtx();
                 if (audioCtx.state === 'suspended') audioCtx.resume();
-
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-
+                osc.connect(gain); gain.connect(audioCtx.destination);
                 const now = audioCtx.currentTime;
-
                 if (type === 'buy') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(587.33, now);
-                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
-                    gain.gain.setValueAtTime(0.15, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-                    osc.start(now);
-                    osc.stop(now + 0.08);
-                } else if (type === 'sell') {
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(880, now);
-                    osc.frequency.exponentialRampToValueAtTime(440, now + 0.08);
-                    gain.gain.setValueAtTime(0.15, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-                    osc.start(now);
-                    osc.stop(now + 0.08);
-                } else if (type === 'fanfare') {
-                    [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
-                        const o = audioCtx.createOscillator();
-                        const g = audioCtx.createGain();
-                        o.connect(g);
-                        g.connect(audioCtx.destination);
-                        o.frequency.setValueAtTime(freq, now + i * 0.06);
-                        g.gain.setValueAtTime(0.1, now + i * 0.06);
-                        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.06 + 0.15);
-                        o.start(now + i * 0.06);
-                        o.stop(now + i * 0.06 + 0.15);
-                    });
+                    osc.frequency.setValueAtTime(500, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.1);
+                    gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                } else {
+                    osc.frequency.setValueAtTime(800, now);
+                    osc.frequency.exponentialRampToValueAtTime(400, now + 0.1);
+                    gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
                 }
+                osc.start(now); osc.stop(now + 0.1);
             } catch(e) {}
         }
 
-        // CONFETTI ANIMATION
-        function triggerConfetti() {
-            playSound('fanfare');
-            const canvas = document.getElementById('confetti-canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            const particles = [];
-            const colors = ['#facc15', '#eab308', '#10b981', '#6366f1', '#ec4899'];
-
-            for (let i = 0; i < 120; i++) {
-                particles.push({
-                    x: canvas.width / 2,
-                    y: canvas.height / 2,
-                    vx: (Math.random() - 0.5) * 18,
-                    vy: (Math.random() - 0.7) * 18,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    size: Math.random() * 8 + 4,
-                    life: 100
-                });
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                let alive = false;
-
-                particles.forEach(p => {
-                    if (p.life > 0) {
-                        alive = true;
-                        p.x += p.vx;
-                        p.y += p.vy;
-                        p.vy += 0.3;
-                        p.life -= 1.5;
-                        ctx.fillStyle = p.color;
-                        ctx.beginPath();
-                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-                });
-
-                if (alive) requestAnimationFrame(animate);
-            }
-            animate();
-        }
-
-        // PRESET CHARACTERS
-        const PRESET_GUYS = [
-            { id: 'bill', name: 'Bill Gates', worth: 100000000000, emoji: '👨‍💼', tagline: '"Tech pioneer turned philanthropist extra sharp!"' },
-            { id: 'elon', name: 'Elon Musk', worth: 250000000000, emoji: '🚀', tagline: '"Sending Gouda cheese to Mars by 2028."' },
-            { id: 'steve', name: 'Minecraft Steve', worth: 999000000000, emoji: '⛏️', tagline: '"Mined 64 stacks of pure Cheese Blocks."' },
-            { id: 'noob', name: 'Roblox Noob', worth: 50000000000, emoji: '🟡', tagline: '"OOF! Spending Robux and 🧀CX everywhere."' },
-            { id: 'gouda', name: 'King Gouda', worth: 10000000000000, emoji: '🧀', tagline: '"Supreme Sovereign of the Cheese Galaxy."' }
-        ];
-
-        // 200 FULLY HANDCRAFTED UNIQUE ITEMS
-        const UNIQUE_ITEMS_RAW = [
-            // Tier 1: Small Eats & Novelties
-            { name: "Single Slice of Kraft Cheese", price: 1, cat: "Cheese", icon: "🧀" },
-            { name: "Crispy Taco Bell Cheese Dorito", price: 2, cat: "Cheese", icon: "🌮" },
-            { name: "String Cheese Stick", price: 3, cat: "Cheese", icon: "🧀" },
-            { name: "Hot Extra Cheese Pizza Slice", price: 5, cat: "Cheese", icon: "🍕" },
-            { name: "Double Cheeseburger Meal", price: 8, cat: "Cheese", icon: "🍔" },
-            { name: "Warm Melted Queso Dip Bowl", price: 12, cat: "Cheese", icon: "🫕" },
-            { name: "Gourmet Grilled Cheese Sandwich", price: 15, cat: "Cheese", icon: "🥪" },
-            { name: "Bavarian Cheese Pretzel", price: 20, cat: "Cheese", icon: "🥨" },
-            { name: "Block of Sharp Cheddar", price: 25, cat: "Cheese", icon: "🧀" },
-            { name: "Deep Dish Mac & Cheese Pot", price: 35, cat: "Cheese", icon: "🍲" },
-            { name: "Whole Mozzarella Pizza", price: 50, cat: "Cheese", icon: "🍕" },
-            { name: "French Brie Cheese Wheel", price: 75, cat: "Cheese", icon: "🧀" },
-            { name: "Smoked Gouda Block", price: 90, cat: "Cheese", icon: "🧀" },
-
-            // Tier 2: Tech & Gaming
-            { name: "Pro Gaming Wireless Mouse", price: 120, cat: "Gaming", icon: "🖱️" },
-            { name: "RGB Mechanical Keyboard", price: 150, cat: "Gaming", icon: "⌨️" },
-            { name: "Aged Italian Parmesan Wheel", price: 200, cat: "Cheese", icon: "🧀" },
-            { name: "Pro Noise-Canceling Headphones", price: 300, cat: "Gaming", icon: "🎧" },
-            { name: "Swiss Cheese Fondue Set", price: 400, cat: "Cheese", icon: "🫕" },
-            { name: "Curved 240Hz Gaming Monitor", price: 600, cat: "Gaming", icon: "🖥️" },
-            { name: "Gouda Guard Dog Companion", price: 800, cat: "Cheese", icon: "🐕" },
-            { name: "Smart Home Cheese Refrigerator", price: 950, cat: "Cheese", icon: "🧊" },
-
-            // Tier 3: Luxuries & High-End Tech
-            { name: "Artisanal Blue Cheese Crate", price: 1200, cat: "Cheese", icon: "📦" },
-            { name: "Golden Pizza Oven", price: 1500, cat: "Cheese", icon: "🍕" },
-            { name: "Nvidia RTX 5090 Ti GPU", price: 2000, cat: "Gaming", icon: "🎛️" },
-            { name: "Commercial Cheese Grating Robot", price: 2800, cat: "Cheese", icon: "🤖" },
-            { name: "Custom Liquid-Cooled PC Rig", price: 3500, cat: "Gaming", icon: "💻" },
-            { name: "Gold-Leaf Coated Truffle Cheese", price: 5000, cat: "Cheese", icon: "✨" },
-            { name: "Streamer Gaming Setup Chair", price: 8000, cat: "Gaming", icon: "🪑" },
-            { name: "Infinite Melted Cheese Fountain", price: 12000, cat: "Cheese", icon: "⛲" },
-            { name: "Full Motion VR Simulator Rig", price: 18000, cat: "Gaming", icon: "🥽" },
-            { name: "Whole Cheese Shop Franchise", price: 25000, cat: "Cheese", icon: "🏪" },
-            { name: "Pure Silver Cheese Knife Set", price: 35000, cat: "Cheese", icon: "🔪" },
-            { name: "Tuned Honda Civic Type-R", price: 48000, cat: "Vehicles", icon: "🏎️" },
-
-            // Tier 4: Supercars, Real Estate & Collectibles
-            { name: "Vintage Retro Arcade Cabinet Set", price: 65000, cat: "Gaming", icon: "🕹️" },
-            { name: "Vintage 50-Year Aged Cheddar", price: 85000, cat: "Cheese", icon: "🍷" },
-            { name: "Tesla Cybertruck Tri-Motor", price: 110000, cat: "Vehicles", icon: "🛻" },
-            { name: "Solid Gold Parmesan Shredder", price: 150000, cat: "Cheese", icon: "🧀" },
-            { name: "Custom Roblox Dominus Hat", price: 250000, cat: "Gaming", icon: "🎩" },
-            { name: "Amphibious Hovercraft Boat", price: 350000, cat: "Vehicles", icon: "🛥️" },
-            { name: "Floating Cheese Sky Lounge", price: 450000, cat: "Cheese", icon: "☁️" },
-            { name: "Lamborghini Aventador SVJ", price: 550000, cat: "Vehicles", icon: "🏎️" },
-            { name: "Minecraft Stack of Diamond Blocks", price: 750000, cat: "Gaming", icon: "⛏️" },
-            { name: "NYC Studio Loft Apartment", price: 900000, cat: "Estates", icon: "🏠" },
-
-            // Tier 5: Mega Estates, Jets & Empires
-            { name: "Roblox Limited Hat Vault", price: 1200000, cat: "Gaming", icon: "🟡" },
-            { name: "Supercomputer Cheese Aging Vault", price: 1800000, cat: "Cheese", icon: "💻" },
-            { name: "Cheese Museum Naming Rights", price: 2500000, cat: "Cheese", icon: "🏛️" },
-            { name: "Custom Cheese Helicopter", price: 3200000, cat: "Vehicles", icon: "🚁" },
-            { name: "Bugatti Chiron Super Sport", price: 4000000, cat: "Vehicles", icon: "🏎️" },
-            { name: "Diamond-Encrusted Cheese Board", price: 5500000, cat: "Cheese", icon: "💎" },
-            { name: "Global Mozzarella Supply Chain", price: 8000000, cat: "Cheese", icon: "🌐" },
-            { name: "Wisconsin Cheese Factory Empire", price: 12000000, cat: "Cheese", icon: "🏰" },
-            { name: "Beverly Hills Suburban Mansion", price: 18000000, cat: "Estates", icon: "🏡" },
-            { name: "Roblox Game Studio HQ", price: 25000000, cat: "Gaming", icon: "🏢" },
-            { name: "Complete T-Rex Dinosaur Skeleton", price: 35000000, cat: "Cosmic", icon: "🦖" },
-            { name: "Private Tropical Island Resort", price: 50000000, cat: "Estates", icon: "🏝️" },
-            { name: "Gulfstream G700 Private Jet", price: 75000000, cat: "Vehicles", icon: "🛩️" },
-
-            // Tier 6: Galactic & Universal Megastructures
-            { name: "Universal Cheese Slicer Satellite", price: 120000000, cat: "Cheese", icon: "🛰️" },
-            { name: "Esports Stadium Naming Rights", price: 180000000, cat: "Gaming", icon: "🏟️" },
-            { name: "300ft Superyacht Fleet", price: 280000000, cat: "Vehicles", icon: "🛥️" },
-            { name: "AI Neural Supercomputer Array", price: 450000000, cat: "Gaming", icon: "🧠" },
-            { name: "Antarctic Research Station Plot", price: 650000000, cat: "Estates", icon: "❄️" },
-            { name: "Original Mona Lisa Painting", price: 880000000, cat: "Cosmic", icon: "🖼️" },
-            { name: "100-Story Skyscraper Tower", price: 1200000000, cat: "Estates", icon: "🏙️" },
-            { name: "Nuclear Powered Submarine", price: 2000000000, cat: "Vehicles", icon: "⚓" },
-            { name: "Amazon Rainforest Reserve Land", price: 3500000000, cat: "Estates", icon: "🌳" },
-            { name: "SpaceX Reusable Starship Fleet", price: 5500000000, cat: "Vehicles", icon: "🚀" },
-            { name: "Orbital Space Hotel Station", price: 15000000000, cat: "Cosmic", icon: "🏨" },
-            { name: "Moon Base Alpha Colony", price: 30000000000, cat: "Cosmic", icon: "🌕" },
-            { name: "Space Elevator Launch Shaft", price: 50000000000, cat: "Vehicles", icon: "🛗" },
-            { name: "Asteroid Mining Operations Facility", price: 85000000000, cat: "Cosmic", icon: "☄️" },
-            { name: "Terraformed Mars City Complex", price: 150000000000, cat: "Cosmic", icon: "🪐" },
-            { name: "Dyson Swarm Solar Array Ring", price: 500000000000, cat: "Cosmic", icon: "☀️" },
-            { name: "Jupiter Cloud Floating Station", price: 800000000000, cat: "Cosmic", icon: "🪐" },
-            { name: "Interstellar Warp Drive Engine", price: 2500000000000, cat: "Cosmic", icon: "🌌" },
-            { name: "Black Hole Energy Harvester", price: 5000000000000, cat: "Cosmic", icon: "🕳️" },
-            { name: "Parallel Cheese Multiverse Matrix", price: 10000000000000, cat: "Cosmic", icon: "✨" }
-        ];
-
-        // BUILD SMOOTH 200 UNIQUE CATALOG
-        const BASE_ITEMS = [];
-        let curPrice = 1;
-
-        for (let i = 1; i <= 200; i++) {
-            let base = UNIQUE_ITEMS_RAW[i - 1];
-            if (!base) {
-                // Ensure all 200 items are populated with custom themes
-                const cats = ["Cheese", "Gaming", "Vehicles", "Estates", "Cosmic"];
-                const icons = ["🧀", "🎮", "🚀", "🏰", "🌌"];
-                const pick = (i % 5);
-                base = {
-                    name: `GigaChad ${cats[pick]} Custom Asset #${i}`,
-                    price: Math.round(curPrice),
-                    cat: cats[pick],
-                    icon: icons[pick]
-                };
-            }
-            
-            BASE_ITEMS.push({
-                id: i,
-                name: base.name,
-                price: base.price,
-                category: base.cat,
-                icon: base.icon,
-                qty: 0
-            });
-
-            curPrice *= 1.18;
-        }
-
-        BASE_ITEMS.sort((a, b) => a.price - b.price);
-        BASE_ITEMS.forEach((item, index) => item.id = index + 1);
-
-        // GAME STATE
-        let activeGuy = PRESET_GUYS[0];
-        let items = JSON.parse(JSON.stringify(BASE_ITEMS));
-        let customGuys = [];
-        let activeMultiplier = 1;
-        let milestoneReached = { 25: false, 50: false, 75: false, 100: false };
-
-        // INITIALIZE
         function init() {
-            populateGuySelect();
+            const select = document.getElementById('guy-select');
+            PRESET_GUYS.forEach(guy => {
+                const opt = document.createElement('option');
+                opt.value = guy.id; opt.textContent = `${guy.name}`;
+                select.appendChild(opt);
+            });
             switchGuy('bill');
         }
 
-        function populateGuySelect() {
-            const select = document.getElementById('guy-select');
-            select.innerHTML = '';
-            
-            const allGuys = [...PRESET_GUYS, ...customGuys];
-            allGuys.forEach(guy => {
-                const opt = document.createElement('option');
-                opt.value = guy.id;
-                opt.textContent = `${guy.name} (${formatCX(guy.worth)})`;
-                select.appendChild(opt);
-            });
-        }
-
         function switchGuy(guyId) {
-            const allGuys = [...PRESET_GUYS, ...customGuys];
-            activeGuy = allGuys.find(g => g.id === guyId) || PRESET_GUYS[0];
-
+            activeGuy = PRESET_GUYS.find(g => g.id === guyId) || PRESET_GUYS[0];
             items.forEach(i => i.qty = 0);
-            milestoneReached = { 25: false, 50: false, 75: false, 100: false };
-
-            document.getElementById('guy-emoji').textContent = activeGuy.emoji.length <= 4 ? activeGuy.emoji : '👤';
-            if (activeGuy.emoji.startsWith('http')) {
-                document.getElementById('guy-avatar-wrapper').innerHTML = `<img src="${activeGuy.emoji}" class="w-full h-full object-cover">`;
-            } else {
-                document.getElementById('guy-avatar-wrapper').innerHTML = `<span id="guy-emoji" class="text-2xl">${activeGuy.emoji}</span>`;
-            }
-
+            document.getElementById('guy-emoji').textContent = activeGuy.emoji;
             document.getElementById('guy-tagline').textContent = activeGuy.tagline;
             updateUI();
         }
@@ -495,83 +275,49 @@
         function setMultiplier(val) {
             activeMultiplier = val;
             document.querySelectorAll('.mult-btn').forEach(btn => {
-                btn.className = "mult-btn px-2.5 py-1 text-xs font-extrabold rounded-md border border-slate-700 bg-slate-800 text-slate-300 hover:border-slate-500";
+                btn.className = "mult-btn px-2 py-1 text-xs font-extrabold rounded-md border border-slate-700 bg-slate-800 text-slate-300";
             });
-            const activeBtn = document.getElementById(`mult-${val}`);
-            if (activeBtn) {
-                activeBtn.className = "mult-btn px-2.5 py-1 text-xs font-extrabold rounded-md border border-cheese-400 bg-cheese-400 text-slate-950 shadow-md";
-            }
+            document.getElementById(`mult-${val}`).className = "mult-btn px-2 py-1 text-xs font-extrabold rounded-md border border-cheese-400 bg-cheese-400 text-slate-950";
             renderItems();
         }
 
-        function getSpentTotal() {
-            return items.reduce((sum, item) => sum + (item.price * item.qty), 0);
-        }
-
-        function getRemainingBalance() {
-            return activeGuy.worth - getSpentTotal();
-        }
-
-        function calculateBuyAmount(item) {
-            const balance = getRemainingBalance();
-            if (activeMultiplier === 'MAX') {
-                return Math.max(1, Math.floor(balance / item.price));
-            }
+        function getSpent() { return items.reduce((sum, item) => sum + (item.price * item.qty), 0); }
+        function getBal() { return activeGuy.worth - getSpent(); }
+        function calcBuyQty(item) {
+            if (activeMultiplier === 'MAX') return Math.max(1, Math.floor(getBal() / item.price));
             return activeMultiplier;
         }
 
         function buyItem(id) {
             const item = items.find(i => i.id === id);
-            if (!item) return;
-
-            const qtyToBuy = calculateBuyAmount(item);
-            const totalCost = item.price * qtyToBuy;
-            const balance = getRemainingBalance();
-
-            if (balance >= totalCost && qtyToBuy > 0) {
-                item.qty += qtyToBuy;
+            const qty = calcBuyQty(item);
+            if (getBal() >= item.price * qty && qty > 0) {
+                item.qty += qty;
                 playSound('buy');
-                checkMilestones();
                 updateUI();
-            } else {
-                playSound('sell');
             }
         }
 
         function sellItem(id) {
             const item = items.find(i => i.id === id);
-            if (!item || item.qty <= 0) return;
-
-            const qtyToSell = activeMultiplier === 'MAX' ? item.qty : Math.min(item.qty, activeMultiplier);
-            item.qty -= qtyToSell;
-            playSound('sell');
-            updateUI();
-        }
-
-        function checkMilestones() {
-            const spent = getSpentTotal();
-            const pct = (spent / activeGuy.worth) * 100;
-
-            [25, 50, 75, 100].forEach(m => {
-                if (pct >= m && !milestoneReached[m]) {
-                    milestoneReached[m] = true;
-                    triggerConfetti();
-                }
-            });
+            if (item.qty > 0) {
+                const qty = activeMultiplier === 'MAX' ? item.qty : Math.min(item.qty, activeMultiplier);
+                item.qty -= qty;
+                playSound('sell');
+                updateUI();
+            }
         }
 
         function updateUI() {
-            const spent = getSpentTotal();
-            const balance = getRemainingBalance();
+            const spent = getSpent();
+            const bal = getBal();
             const pct = Math.min(100, (spent / activeGuy.worth) * 100);
 
-            document.getElementById('balance-display').textContent = `${formatCX(balance)} 🧀CX`;
-            document.getElementById('spent-display').textContent = `${formatCX(spent)} 🧀CX`;
+            document.getElementById('balance-display').textContent = `${bal.toLocaleString()} 🧀CX`;
+            document.getElementById('spent-display').textContent = `${spent.toLocaleString()} 🧀CX`;
             document.getElementById('percent-display').textContent = `${pct.toFixed(2)}%`;
             document.getElementById('progress-bar').style.width = `${pct}%`;
-
-            const totalItemsBought = items.reduce((a, b) => a + b.qty, 0);
-            document.getElementById('cart-count').textContent = totalItemsBought;
+            document.getElementById('cart-count').textContent = items.reduce((a, b) => a + b.qty, 0);
 
             renderItems();
         }
@@ -580,232 +326,47 @@
             const grid = document.getElementById('items-grid');
             const search = document.getElementById('search-input').value.toLowerCase();
             const cat = document.getElementById('category-select').value;
-            const balance = getRemainingBalance();
+            const bal = getBal();
 
-            const filtered = items.filter(item => {
-                const matchesSearch = item.name.toLowerCase().includes(search);
-                const matchesCat = cat === 'ALL' || item.category === cat;
-                return matchesSearch && matchesCat;
-            });
-
-            grid.innerHTML = '';
-
-            filtered.forEach(item => {
-                const buyQty = calculateBuyAmount(item);
-                const canAfford = balance >= item.price;
-
-                const card = document.createElement('div');
-                card.className = `glass-panel rounded-2xl p-4 flex flex-col justify-between transition-all duration-200 hover:border-slate-600 ${item.qty > 0 ? 'border-cheese-500/50 bg-slate-900/90' : ''}`;
-
-                card.innerHTML = `
+            grid.innerHTML = items.filter(item => 
+                item.name.toLowerCase().includes(search) && (cat === 'ALL' || item.category === cat)
+            ).map(item => `
+                <div class="glass-panel rounded-xl p-3 flex flex-col justify-between ${item.qty > 0 ? 'border-cheese-500/50 bg-slate-900/90' : ''}">
                     <div>
                         <div class="flex justify-between items-start mb-2">
-                            <span class="text-3xl p-2 bg-slate-800/80 rounded-xl">${item.icon}</span>
-                            <span class="text-[10px] font-mono text-slate-400 border border-slate-800 px-2 py-0.5 rounded-full">#${item.id}</span>
+                            <span class="text-2xl">${item.icon}</span>
                         </div>
-                        <h4 class="font-bold text-sm text-slate-100 line-clamp-1">${item.name}</h4>
-                        <div class="text-cheese-400 font-extrabold font-mono text-sm mt-1">${formatCX(item.price)} 🧀CX</div>
+                        <!-- NO LINE CLAMP, ALLOW TEXT TO WRAP -->
+                        <h4 class="font-bold text-[13px] leading-tight text-slate-100 mb-1 break-words">${item.name}</h4>
+                        <div class="text-cheese-400 font-bold font-mono text-xs">${item.price.toLocaleString()} CX</div>
                     </div>
-
-                    <div class="mt-4 pt-3 border-t border-slate-800/80">
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <button onclick="sellItem(${item.id})" ${item.qty <= 0 ? 'disabled' : ''} class="w-1/2 py-1.5 rounded-lg text-xs font-bold transition ${item.qty > 0 ? 'bg-rose-950 hover:bg-rose-900 border border-rose-800 text-rose-300' : 'bg-slate-900 text-slate-600 cursor-not-allowed'}">
-                                Sell
-                            </button>
-                            <button onclick="buyItem(${item.id})" ${!canAfford ? 'disabled' : ''} class="w-1/2 py-1.5 rounded-lg text-xs font-extrabold transition ${canAfford ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-md' : 'bg-slate-900 text-slate-600 cursor-not-allowed'}">
-                                Buy (${buyQty})
-                            </button>
+                    <div class="mt-3 pt-2 border-t border-slate-800/80 flex flex-col gap-1">
+                        <div class="flex gap-1">
+                            <button onclick="sellItem(${item.id})" class="flex-1 py-1 bg-rose-950 text-rose-300 rounded text-[10px] font-bold ${item.qty <= 0 ? 'opacity-50 cursor-not-allowed' : ''}">Sell</button>
+                            <button onclick="buyItem(${item.id})" class="flex-1 py-1 bg-emerald-500 text-slate-950 rounded text-[10px] font-extrabold ${bal < item.price ? 'opacity-50 cursor-not-allowed' : ''}">Buy</button>
                         </div>
-                        <div class="text-center text-[11px] font-mono font-bold text-slate-400">
-                            Owned: <span class="${item.qty > 0 ? 'text-cheese-300 font-black' : 'text-slate-500'}">${item.qty}</span>
-                        </div>
+                        <div class="text-center text-[10px] text-slate-400 font-mono mt-1">Owned: <span class="${item.qty > 0 ? 'text-cheese-400 font-bold' : ''}">${item.qty}</span></div>
                     </div>
-                `;
-                grid.appendChild(card);
-            });
+                </div>
+            `).join('');
         }
 
-        // MODAL TOGGLES
-        function openCustomGuyModal() { document.getElementById('custom-guy-modal').classList.remove('hidden'); }
-        function closeCustomGuyModal() { document.getElementById('custom-guy-modal').classList.add('hidden'); }
-        function openCustomItemModal() { document.getElementById('custom-item-modal').classList.remove('hidden'); }
-        function closeCustomItemModal() { document.getElementById('custom-item-modal').classList.add('hidden'); }
-
-        function saveCustomGuy() {
-            const name = document.getElementById('guy-name-input').value.trim() || 'Custom Cheese Baller';
-            const avatar = document.getElementById('guy-avatar-input').value.trim() || '🧀';
-            const worth = parseFloat(document.getElementById('guy-worth-input').value) || 1000000000;
-            const tagline = document.getElementById('guy-tagline-input').value.trim() || '"Ready to spend big!"';
-
-            const newGuy = { id: 'custom_' + Date.now(), name, worth, emoji: avatar, tagline };
-            customGuys.push(newGuy);
-            populateGuySelect();
-            closeCustomGuyModal();
-            switchGuy(newGuy.id);
-            playSound('fanfare');
-        }
-
-        function saveCustomItem() {
-            const name = document.getElementById('item-name-input').value.trim() || 'Custom Cheese Item';
-            const price = parseFloat(document.getElementById('item-price-input').value) || 100;
-            const icon = document.getElementById('item-icon-input').value.trim() || '✨';
-
-            const newItem = {
-                id: items.length + 1,
-                name,
-                price: Math.round(price),
-                category: 'Custom',
-                icon,
-                qty: 0
-            };
-
-            items.push(newItem);
-            closeCustomItemModal();
-            updateUI();
-            playSound('fanfare');
-        }
-
-        // RECEIPT MODAL & HTML CANVAS IMAGE GENERATOR
         function openReceiptModal() {
-            const container = document.getElementById('receipt-content');
-            container.innerHTML = '';
-
+            const cont = document.getElementById('receipt-content');
             const bought = items.filter(i => i.qty > 0);
-            if (bought.length === 0) {
-                container.innerHTML = `<div class="text-center text-slate-500 py-8">Your cart is empty! Buy some items first! 🧀💸</div>`;
-            } else {
-                bought.forEach(item => {
-                    const row = document.createElement('div');
-                    row.className = 'flex justify-between border-b border-slate-800/60 pb-1';
-                    row.innerHTML = `
-                        <span>${item.icon} ${item.name} x${item.qty}</span>
-                        <span class="text-cheese-400">${formatCX(item.price * item.qty)} 🧀CX</span>
-                    `;
-                    container.appendChild(row);
-                });
-            }
-
-            document.getElementById('receipt-total').textContent = `${formatCX(getSpentTotal())} 🧀CX`;
+            cont.innerHTML = bought.length ? bought.map(i => `
+                <div class="flex justify-between border-b border-slate-800/60 pb-1">
+                    <span>${i.icon} ${i.name} x${i.qty}</span>
+                    <span class="text-cheese-400">${(i.price * i.qty).toLocaleString()} CX</span>
+                </div>
+            `).join('') : '<div class="text-center text-slate-500">Cart empty!</div>';
+            
+            document.getElementById('receipt-total').textContent = `${getSpent().toLocaleString()} 🧀CX`;
             document.getElementById('receipt-modal').classList.remove('hidden');
         }
 
         function closeReceiptModal() { document.getElementById('receipt-modal').classList.add('hidden'); }
-
-        // EXPORT RECEIPT TO A PNG PICTURE VIA HTML CANVAS
-        function saveReceiptAsImage() {
-            const bought = items.filter(i => i.qty > 0);
-            if (bought.length === 0) {
-                alert("Your cart is empty! Buy some items first!");
-                return;
-            }
-
-            const canvas = document.getElementById('receipt-canvas');
-            const ctx = canvas.getContext('2d');
-
-            // Setup canvas dimensions based on content
-            const width = 550;
-            const rowHeight = 28;
-            const headerHeight = 220;
-            const footerHeight = 120;
-            const height = headerHeight + (bought.length * rowHeight) + footerHeight;
-
-            canvas.width = width;
-            canvas.height = height;
-
-            // Background
-            ctx.fillStyle = '#0f172a';
-            ctx.fillRect(0, 0, width, height);
-
-            // Border
-            ctx.strokeStyle = '#eab308';
-            ctx.lineWidth = 4;
-            ctx.strokeRect(10, 10, width - 20, height - 20);
-
-            // Header Title
-            ctx.fillStyle = '#facc15';
-            ctx.font = 'bold 22px monospace';
-            ctx.textAlign = 'center';
-            ctx.fillText('🧀 CHEESE CASH (🧀CX) RECEIPT 🧀', width / 2, 50);
-
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '14px monospace';
-            ctx.fillText(`Target: ${activeGuy.name}`, width / 2, 80);
-            ctx.fillText(`Date: ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`, width / 2, 105);
-
-            // Line Separator
-            ctx.strokeStyle = '#334155';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(30, 130);
-            ctx.lineTo(width - 30, 130);
-            ctx.stroke();
-
-            // Items List
-            ctx.textAlign = 'left';
-            let y = 160;
-
-            bought.forEach(item => {
-                ctx.fillStyle = '#f8fafc';
-                ctx.font = '13px monospace';
-                
-                let nameStr = `${item.icon} ${item.name} x${item.qty}`;
-                if (nameStr.length > 28) nameStr = nameStr.substring(0, 25) + '...';
-
-                ctx.fillText(nameStr, 35, y);
-
-                ctx.textAlign = 'right';
-                ctx.fillStyle = '#facc15';
-                ctx.fillText(`${formatCX(item.price * item.qty)} CX`, width - 35, y);
-                ctx.textAlign = 'left';
-
-                y += rowHeight;
-            });
-
-            // Line Separator
-            ctx.strokeStyle = '#334155';
-            ctx.beginPath();
-            ctx.moveTo(30, y + 10);
-            ctx.lineTo(width - 30, y + 10);
-            ctx.stroke();
-
-            // Total Summary
-            y += 45;
-            ctx.fillStyle = '#10b981';
-            ctx.font = 'bold 18px monospace';
-            ctx.fillText('TOTAL SPENT:', 35, y);
-
-            ctx.textAlign = 'right';
-            ctx.fillStyle = '#facc15';
-            ctx.font = 'bold 20px monospace';
-            ctx.fillText(`${formatCX(getSpentTotal())} 🧀CX`, width - 35, y);
-
-            // Footer Watermark
-            y += 40;
-            ctx.textAlign = 'center';
-            ctx.fillStyle = '#64748b';
-            ctx.font = '11px monospace';
-            ctx.fillText('Thank you for spending billionaire cheese wealth! 🧀', width / 2, y);
-
-            // Direct PNG Download
-            const dataURL = canvas.toDataURL('image/png');
-            const link = document.createElement('a');
-            link.download = `Cheese_Receipt_${activeGuy.name.replace(/\s+/g, '_')}_${Date.now()}.png`;
-            link.href = dataURL;
-            link.click();
-
-            playSound('fanfare');
-        }
-
-        function resetGame() {
-            items.forEach(i => i.qty = 0);
-            milestoneReached = { 25: false, 50: false, 75: false, 100: false };
-            updateUI();
-            playSound('sell');
-        }
-
-        function formatCX(num) {
-            return new Intl.NumberFormat('en-US').format(num);
-        }
+        function resetGame() { items.forEach(i => i.qty = 0); updateUI(); }
 
         window.onload = init;
     </script>
